@@ -1,9 +1,10 @@
-const videoSize = 28;
+const videoSize = 10;
 const h = 400;
 const w = 400;
 const factor = w / videoSize;
 
 const learningRate = 0.1;
+const noEpochs = 200;
 
 let video;
 
@@ -11,6 +12,7 @@ let video;
 let recordButton;
 let trainButton;
 let classifyButton;
+let resetButton;
 
 // Inputs
 let labelButton;
@@ -24,7 +26,6 @@ let testingData = [];
 
 let labelData;
 let noOfOutputs = 0;
-let noEpochs = 200;
 
 let neuralNetwork;
 
@@ -67,6 +68,12 @@ function classifyImages() {
     classification = true;
 }
 
+function resetAll() {
+    classification = false;
+    labelArray = [];
+    trainingData = [];
+}
+
 function setup() {
     createCanvas(w + 200, h);
 
@@ -78,11 +85,13 @@ function setup() {
     trainButton = createButton("Train");
     classifyButton = createButton("Classify");
     labelButton = createButton("Add");
+    resetButton = createButton("RESET");
 
     recordButton.position(w + 20, 30);
     trainButton.position(w + 20, 60);
     classifyButton.position(w + 20, 90);
     labelButton.position(w + 20, 250);
+    resetButton.position(w + 20, h - 40)
 
     labelWindow = createInput();
     labelWindow.position(w + 20, 230);
@@ -105,13 +114,14 @@ function draw() {
             noStroke();
             fill(r, g, b);
             rect(x * factor, y * factor, factor, factor);
-            temp.push((r + g + b) / 3);
+            temp.push((r + g + b) / (3 * 255));
         }
     }
 
     recordButton.mousePressed(saveFrame);
     trainButton.mousePressed(trainNN);
     classifyButton.mousePressed(classifyImages);
+    resetButton.mousePressed(resetAll);
 
     if (classification) {
         let temp1 = neuralNetwork.estimate(Matrix.fromArray(temp));
