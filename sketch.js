@@ -90,18 +90,18 @@ function setup() {
     recordButton.position(w + 20, 30);
     trainButton.position(w + 20, 60);
     classifyButton.position(w + 20, 90);
-    labelButton.position(w + 20, 250);
-    resetButton.position(w + 20, h - 40)
+    labelButton.position(w + 20, 180);
+    resetButton.position(w + 20, 225)
 
     labelWindow = createInput();
-    labelWindow.position(w + 20, 230);
+    labelWindow.position(w + 20, 160);
 }
 
 function draw() {
     background(0);
     fill(255);
     textSize(18);
-    text("Label:", w + 20, 220);
+    text("Label:", w + 10, 150);
 
     video.loadPixels();
     temp = [];
@@ -124,11 +124,18 @@ function draw() {
     resetButton.mousePressed(resetAll);
 
     if (classification) {
-        let temp1 = neuralNetwork.estimate(Matrix.fromArray(temp));
+        let temp3 = neuralNetwork.estimate(Matrix.fromArray(temp));
+        let temp1 = temp3.index;
+        let temp2 = temp3.accuracy;
         push();
+        
+        fill(255);
+        
+        text("Accuracy:", w + 10, h - 35)
+        text(temp2, w + 10, h - 15);
+
         textAlign(CENTER, CENTER);
         textSize(32);
-        fill(255);
         text(labelArray[temp1], w / 2, h - 16);
         pop();
     }
