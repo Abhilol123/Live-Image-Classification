@@ -1,4 +1,4 @@
-const videoSize = 10;
+const videoSize = 15;
 const h = 400;
 const w = 400;
 const factor = w / videoSize;
