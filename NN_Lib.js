@@ -107,6 +107,12 @@ class NN {
         }
 
         let gg = Matrix.toArray(this.forw_prop[this.forw_prop.length - 1])
-        return gg.indexOf(max(gg));
+        let temp = 0;
+        for (let i = 0; i < gg.length; i++) {
+            temp = temp + gg[i];
+        }
+        let index = gg.indexOf(max(gg));
+        let accur = gg[index] / temp;
+        return {index:index, accuracy:accur};
     }
 }
