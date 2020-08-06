@@ -38,7 +38,7 @@ function saveFrame() {
 }
 
 function trainNN() {
-    neuralNetwork = new NN(videoSize * videoSize, noOfOutputs, 1, [64]);
+    neuralNetwork = new NN(videoSize * videoSize * 3, noOfOutputs, 1, [64]);
     neuralNetwork.initialise();
 
     // Preparing Data
@@ -79,7 +79,7 @@ function setup() {
 
     video = createCapture(VIDEO);
     video.size(videoSize, videoSize);
-    video.hide();
+    // video.hide();
 
     recordButton = createButton("Take Data");
     trainButton = createButton("Train");
@@ -103,6 +103,8 @@ function draw() {
     textSize(18);
     text("Label:", w + 10, 150);
 
+    image(video, 0, 0, w, h);
+
     video.loadPixels();
     temp = [];
     for (let x = 0; x < video.width; x++) {
@@ -111,10 +113,10 @@ function draw() {
             let r = video.pixels[index + 0];
             let g = video.pixels[index + 1];
             let b = video.pixels[index + 2];
-            noStroke();
-            fill(r, g, b);
-            rect(x * factor, y * factor, factor, factor);
-            temp.push((r + g + b) / (3 * 255));
+            // noStroke();
+            // fill(r, g, b);
+            // rect(x * factor, y * factor, factor, factor);
+            temp = temp.concat([r /255, g/255, b/255]);
         }
     }
 
@@ -128,9 +130,9 @@ function draw() {
         let temp1 = temp3.index;
         let temp2 = temp3.accuracy;
         push();
-        
+
         fill(255);
-        
+
         text("Accuracy:", w + 10, h - 35)
         text(temp2, w + 10, h - 15);
 
